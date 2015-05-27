@@ -1,0 +1,51 @@
+diff --git a/Rakefile b/Rakefile
+index 60ea345..3cc3280 100644
+--- a/Rakefile
++++ b/Rakefile
+@@ -21,8 +21,13 @@ end
+ ### Injection
+ 
+ namespace :injection do
+-  INJECTION_ASSETS      = File.expand_path File.join(ROOT_DIR,  'injection')
+-  INJECTION_BUILD_DIR   = File.expand_path File.join(BUILD_DIR, 'injection')
++  #INJECTION_ASSETS      = File.expand_path File.join(ROOT_DIR,  'injection')
++  #INJECTION_BUILD_DIR   = File.expand_path File.join(BUILD_DIR, 'injection')
++
++  INJECTION_VERSION = ENV['VERSION'] ? ENV['VERSION'] : 'beta'
++  INJECTION_ASSETS = File.expand_path File.join(ROOT_DIR, 'injection')
++  INJECTION_VERSION_PATH = File.join('injection', INJECTION_VERSION)
++  INJECTION_BUILD_DIR = File.expand_path File.join(BUILD_DIR, INJECTION_VERSION_PATH)
+ 
+   module InjectionHelper
+     def asset_path(path, options={})
+@@ -34,8 +39,8 @@ namespace :injection do
+ 
+   Rake::SprocketsTask.new(:assets) do |t|
+     t.environment = Sprockets::Environment.new do |e|
+-      e.js_compressor  = :uglify
+-      e.css_compressor = :scss
++      #e.js_compressor  = :uglify
++      #e.css_compressor = :scss
+       e.append_path File.join(Gem.loaded_specs['compass-core'].full_gem_path, 'stylesheets')
+       e.append_path INJECTION_ASSETS
+       e.context_class.class_eval do
+@@ -43,7 +48,7 @@ namespace :injection do
+       end
+     end
+     AutoprefixerRails.install(t.environment)
+-    t.output      = INJECTION_BUILD_DIR
++    t.output      = "#{INJECTION_BUILD_DIR}/manifest-#{SecureRandom.hex(16)}.json"
+     t.assets      = %w{*.svg *.png *.jpg *.jpeg injection.js injection.css}
+     t.logger      = Logger.new($stdout)
+     # t.log_level   = :debug
+@@ -70,8 +75,8 @@ namespace :templates do
+ 
+   Rake::SprocketsTask.new(:assets) do |t|
+     t.environment = Sprockets::Environment.new do |e|
+-      e.js_compressor  = :uglify
+-      e.css_compressor = :scss
++      #e.js_compressor  = :uglify
++      #e.css_compressor = :scss
+       e.append_path File.join(Gem.loaded_specs['compass-core'].full_gem_path, 'stylesheets')
+       e.append_path TEMPLATES_ASSETS
+       e.context_class.class_eval do
