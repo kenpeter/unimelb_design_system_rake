@@ -1,0 +1,15 @@
+diff --git a/injection/header/_header.scss b/injection/header/_header.scss
+index 0415ea6..f437f15 100644
+--- a/injection/header/_header.scss
++++ b/injection/header/_header.scss
+@@ -31,7 +31,9 @@
+   &.fixed:not(.floating) {
+     @media screen {
+       @include rem(height, 40px);
+-      background-color: rgba($white, .9);
++      /*background-color: rgba($white, .9);*/
++      /* Gary */
++      background-color: rgba($white, 1);
+       font-family: $ff-sans;
+       position: fixed;
+       width: 100%;
